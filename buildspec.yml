@@ -12,6 +12,6 @@ phases:
     commands:
       - docker push 898847366693.dkr.ecr.ap-south-1.amazonaws.com/youtube:latest
       - printf '[{"name":"node","imageUri":"%s"}]' 
-        898847366693.dkr.ecr.ap-south-1.amazonaws.com/youtube:latest > imagedefinitions.json
+       898847366693.dkr.ecr.ap-south-1.amazonaws.com/youtube:latest > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
