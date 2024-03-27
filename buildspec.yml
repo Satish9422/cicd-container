@@ -3,14 +3,14 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - $(aws ecr get-login --no-include-email --region ap-south-1)
+      - $(aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/k5c6v6o7)
   build:
     commands:
       - docker build -t youtube:latest .
-      - docker tag youtube:latest 898847366693.dkr.ecr.ap-south-1.amazonaws.com/youtube:latest
+      - docker tag youtube:latest public.ecr.aws/k5c6v6o7/youtube:latest
   post_build:
     commands:
-      - docker push 898847366693.dkr.ecr.ap-south-1.amazonaws.com/youtube:latest
-      - printf '[{"name":"node","imageUri":"898847366693.dkr.ecr.ap-south-1.amazonaws.com/youtube:latest"}]' > imagedefinitions.json
+      - docker push public.ecr.aws/k5c6v6o7/youtube:latest
+      - printf '[{"name":"node","imageUri":"%s"}]' public.ecr.aws/k5c6v6o7/youtube:latest > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
