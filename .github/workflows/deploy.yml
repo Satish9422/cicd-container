@@ -1,0 +1,35 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to ECR
+      run:  aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/k5c6v6o7
+
+    - name: Build Docker image
+      run: docker build -t youtube:latest . \
+           docker tag youtube:latest public.ecr.aws/k5c6v6o7/youtube:latest
+
+    - name: Push Docker image to Docker Hub
+      run: docker push public.ecr.aws/k5c6v6o7/youtube:latest
+
+    - name: Deploy to ECS
+      uses: aws-actions/amazon-ecs-deploy@v1
+      with:
+        cluster: mycluster
+        service: node-service
+        images: youtube:latest
+        region: us-east-1
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
