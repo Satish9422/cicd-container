@@ -25,7 +25,9 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t youtube:latest . 
-           docker tag youtube:latest public.ecr.aws/k5c6v6o7/youtube:latest
+    
+    - name: Tag Image       
+      run: docker tag youtube:latest public.ecr.aws/k5c6v6o7/youtube:latest
 
     - name: Push Docker image to Docker Hub
       run: docker push public.ecr.aws/k5c6v6o7/youtube:latest
