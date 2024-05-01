@@ -24,7 +24,7 @@ jobs:
       run:  aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/k5c6v6o7
 
     - name: Build Docker image
-      run: docker build -t youtube:latest . \
+      run: docker build -t youtube:latest . 
            docker tag youtube:latest public.ecr.aws/k5c6v6o7/youtube:latest
 
     - name: Push Docker image to Docker Hub
